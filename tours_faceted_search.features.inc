@@ -21,29 +21,6 @@ function tours_faceted_search_views_api($module = NULL, $api = NULL) {
 }
 
 /**
- * Implements hook_default_rooms_unit_type().
- */
-function tours_faceted_search_default_rooms_unit_type() {
-  $items = array();
-  $items['unit_with_attributes'] = entity_import('rooms_unit_type', '{
-    "type" : "unit_with_attributes",
-    "label" : "Unit with Attributes",
-    "weight" : "0",
-    "data" : {
-      "base_price" : "99",
-      "min_sleeps" : "1",
-      "max_sleeps" : "2",
-      "min_children" : "0",
-      "max_children" : "1",
-      "rooms_description_source" : ""
-    },
-    "rooms_booking_unit_options" : [],
-    "rdf_mapping" : []
-  }');
-  return $items;
-}
-
-/**
  * Implements hook_default_search_api_index().
  */
 function tours_faceted_search_default_search_api_index() {
@@ -79,10 +56,7 @@ function tours_faceted_search_default_search_api_index() {
           "weight" : "-10",
           "settings" : {
             "default" : "1",
-            "bundles" : {
-              "single_day_tour_slot" : "single_day_tour_slot",
-              "unit_with_attributes" : "unit_with_attributes"
-            }
+            "bundles" : { "single_day_tour_slot" : "single_day_tour_slot" }
           }
         },
         "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },

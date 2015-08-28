@@ -53,7 +53,6 @@ function tours_faceted_search_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_default_unit_index';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'unit_with_attributes' => 'unit_with_attributes',
     'single_day_tour' => 'single_day_tour',
     'single_day_tour_slot' => 'single_day_tour_slot',
     'multi_day_tour' => 'multi_day_tour',
@@ -67,6 +66,25 @@ function tours_faceted_search_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'booking';
+  $translatables['filtered_availability_search'] = array(
+    t('Master'),
+    t('Filtered Availability Search'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('.'),
+    t('Page'),
+  );
   $export['filtered_availability_search'] = $view;
 
   return $export;

@@ -4,6 +4,6 @@ To use:
 
 1. Enable the feature
 2. Go to admin/structure/taxonomy/attributes and add some attribute terms
-3. Go to admin/rooms/units and add some bookable units of type 'Unit with Attributes'
+3. Go to admin/rooms/units and add some bookable units
 4. Run cron (this must be done to index your new terms/units, and any time you update any of this data to refresh the indexed data)
 5. Go to /booking
