@@ -172,7 +172,7 @@ function tours_faceted_search_rooms_availability_search_form($form, &$form_state
 
   $form['container']['arrival'] = array(
     '#prefix' => '<div class="form-wrapper rooms-date-range"><div class="start-date" id="' . $start_date_id . '">',
-    '#suffix' => '</div>',
+    '#suffix' => '</div></div>',
     '#type' => 'date_popup',
     '#date_format' => variable_get('rooms_date_format', 'd-m-Y'),
     '#attributes' => array('placeholder' => t('arrival')),
