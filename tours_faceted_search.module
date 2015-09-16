@@ -11,6 +11,7 @@ include_once 'tours_faceted_search.features.inc';
  */
 function tours_faceted_search_block_info() {
   $blocks = array();
+
   $blocks['rooms_availability_search'] = array(
     'info' => t('Rooms Availability Search Form'),
     'pages' => 'booking',
@@ -19,6 +20,7 @@ function tours_faceted_search_block_info() {
     'status' => TRUE,
     'weight' => -25,
   );
+
   return $blocks;
 }
 
@@ -27,12 +29,14 @@ function tours_faceted_search_block_info() {
  */
 function tours_faceted_search_block_view($delta = '') {
   $block = array();
+
   switch ($delta) {
     case 'rooms_availability_search':
       $block['subject'] = '';
       $block['content'] = drupal_get_form('tours_faceted_search_rooms_availability_search_form');
       break;
   }
+
   return $block;
 }
 
@@ -41,8 +45,6 @@ function tours_faceted_search_block_view($delta = '') {
  */
 function tours_faceted_search_views_pre_view($view, $display_id, $args) {
   if ($view->name == 'filtered_availability_search') {
-    // drupal_add_css(drupal_get_path('module', 'agency_demo_homepage') . '/agency_demo_homepage.css');
-
     // Include the CTools tools that we need.
     ctools_include('ajax');
     ctools_include('modal');
@@ -128,7 +130,7 @@ function tours_faceted_search_block_info_alter(&$blocks, $theme, $code_blocks) {
 /**
  * Callback for rooms_availability_search block.
  */
-function tours_faceted_search_rooms_availability_search_form() {
+function tours_faceted_search_rooms_availability_search_form($form, &$form_state) {
   $params = drupal_get_query_parameters();
   $now = date_create();
 
@@ -137,8 +139,6 @@ function tours_faceted_search_rooms_availability_search_form() {
 
   // Month doesn't have a default selection.
   $default_month = '';
-
-  // drupal_add_js(drupal_get_path('module', 'agency_homepage_search') . '/plugins/content_types/date_browser.js');
 
   $form['container'] = array(
     '#type' => 'container',
@@ -174,7 +174,6 @@ function tours_faceted_search_rooms_availability_search_form() {
     '#prefix' => '<div class="form-wrapper rooms-date-range"><div class="start-date" id="' . $start_date_id . '">',
     '#suffix' => '</div>',
     '#type' => 'date_popup',
-    '#description' => '',
     '#date_format' => variable_get('rooms_date_format', 'd-m-Y'),
     '#attributes' => array('placeholder' => t('arrival')),
     '#default_value' => isset($arrival) ? $arrival : '',
@@ -192,7 +191,6 @@ function tours_faceted_search_rooms_availability_search_form() {
   $form['container']['group_size'] = array(
     '#type' => 'select',
     '#title' => t('Group size'),
-    '#description' => '',
     '#options' => $group_options,
     '#default_value' => isset($params['group_size']) ? $params['group_size'] : 2,
   );
@@ -228,7 +226,6 @@ function tours_faceted_search_rooms_availability_search_form_validate($form, $fo
 function tours_faceted_search_rooms_availability_search_form_submit($form, $form_state) {
   $params = drupal_get_query_parameters();
 
-  // @see rooms_date_range_fields().
   $format = 'd/m/Y';
 
   // Process stay dates.
@@ -236,7 +233,7 @@ function tours_faceted_search_rooms_availability_search_form_submit($form, $form
     $arrivalDateTime = DateTime::createFromFormat('Y-m-d', $form_state['values']['arrival']);
     $arrival = $arrivalDateTime->format($format);
     $departureDateTime = $arrivalDateTime->add(new DateInterval('P30D'));
-    $departure = $departureDateTime->format('Y-m-d');
+    $departure = $departureDateTime->format($format);
   }
 
   // Set the URL parameters for the view.
@@ -244,10 +241,5 @@ function tours_faceted_search_rooms_availability_search_form_submit($form, $form
   isset($departure) ? $params['rooms_end_date']['date'] = $departure : $params['rooms_end_date']['date'] = '';
   $params['group_size'] = $form_state['values']['group_size'];
 
-  $path = 'booking';
-  $options = array(
-    'query' => $params,
-  );
-
-  drupal_goto($path, $options);
+  drupal_goto('booking', array('query' => $params));
 }
